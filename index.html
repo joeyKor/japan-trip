@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Japan Trip GPS</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div class="badge">JAPAN TRIP</div>
+      <h1>내 GPS 위치 확인</h1>
+      <p class="subtitle">버튼을 누르면 현재 스마트폰의 GPS 좌표를 가져옵니다.</p>
+    </header>
+
+    <section class="action-section">
+      <button id="getGpsBtn" class="gps-btn" type="button">
+        <span class="btn-icon" aria-hidden="true">📍</span>
+        <span class="btn-text">현재 GPS 정보 가져오기</span>
+      </button>
+      <p id="statusText" class="status-text" aria-live="polite">대기 중</p>
+    </section>
+
+    <section id="resultCard" class="card hidden" aria-live="polite">
+      <div class="card-header">
+        <h2>위치 정보</h2>
+        <span id="timestamp" class="timestamp"></span>
+      </div>
+
+      <dl class="info-list">
+        <div class="info-row">
+          <dt>위도 (Latitude)</dt>
+          <dd id="latValue">-</dd>
+        </div>
+        <div class="info-row">
+          <dt>경도 (Longitude)</dt>
+          <dd id="lngValue">-</dd>
+        </div>
+        <div class="info-row">
+          <dt>정확도 (Accuracy)</dt>
+          <dd id="accValue">-</dd>
+        </div>
+        <div class="info-row">
+          <dt>고도 (Altitude)</dt>
+          <dd id="altValue">-</dd>
+        </div>
+        <div class="info-row">
+          <dt>속도 (Speed)</dt>
+          <dd id="speedValue">-</dd>
+        </div>
+      </dl>
+
+      <div class="card-actions">
+        <button id="copyBtn" class="secondary-btn" type="button">좌표 복사</button>
+        <a id="mapsLink" class="secondary-btn link-btn" href="#" target="_blank" rel="noopener noreferrer">구글 지도에서 보기</a>
+      </div>
+    </section>
+
+    <section id="errorBox" class="error-box hidden" role="alert"></section>
+
+    <footer class="footer">
+      <p>※ 스마트폰 브라우저에서 GPS를 사용하려면 위치 권한 허용 및 HTTPS(또는 localhost) 환경이 필요합니다.</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

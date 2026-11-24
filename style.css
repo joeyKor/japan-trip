@@ -1,0 +1,219 @@
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-border: #334155;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent: #e11d48;
+  --accent-hover: #be123c;
+  --accent-glow: rgba(225, 29, 72, 0.35);
+  --error-bg: rgba(239, 68, 68, 0.14);
+  --error-border: rgba(239, 68, 68, 0.4);
+  --error-text: #fca5a5;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1e293b 0%, var(--bg) 60%);
+  color: var(--text);
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  padding: max(20px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+}
+
+.app {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  text-align: center;
+  padding-top: 8px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #fda4af;
+  background: rgba(225, 29, 72, 0.16);
+  border: 1px solid rgba(225, 29, 72, 0.35);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+
+.header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.action-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.gps-btn {
+  width: 100%;
+  min-height: 58px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f43f5e, var(--accent));
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px -5px var(--accent-glow);
+  transition: transform 0.12s ease, opacity 0.2s ease, background 0.2s ease;
+}
+
+.gps-btn:active {
+  transform: scale(0.98);
+}
+
+.gps-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.status-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  min-height: 20px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.card-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.info-row dt {
+  color: var(--text-muted);
+}
+
+.info-row dd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 600;
+  color: var(--text);
+  text-align: right;
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding-top: 6px;
+}
+
+.secondary-btn {
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--surface-border);
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.secondary-btn:active {
+  background: rgba(51, 65, 85, 0.7);
+}
+
+.error-box {
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  color: var(--error-text);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer {
+  margin-top: auto;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  padding-top: 8px;
+}
+
+.hidden {
+  display: none;
+}
