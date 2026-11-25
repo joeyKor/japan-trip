@@ -4,67 +4,193 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0f172a" />
-  <title>Japan Trip GPS</title>
+  <title>Japan Trip</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app">
-    <header class="header">
-      <div class="badge">JAPAN TRIP</div>
-      <h1>내 GPS 위치 확인</h1>
-      <p class="subtitle">버튼을 누르면 현재 스마트폰의 GPS 좌표를 가져옵니다.</p>
-    </header>
-
-    <section class="action-section">
-      <button id="getGpsBtn" class="gps-btn" type="button">
-        <span class="btn-icon" aria-hidden="true">📍</span>
-        <span class="btn-text">현재 GPS 정보 가져오기</span>
-      </button>
-      <p id="statusText" class="status-text" aria-live="polite">대기 중</p>
-    </section>
-
-    <section id="resultCard" class="card hidden" aria-live="polite">
-      <div class="card-header">
-        <h2>위치 정보</h2>
-        <span id="timestamp" class="timestamp"></span>
+    <!-- 홈 화면 -->
+    <div id="homeView" class="view">
+      <div class="home-top-bar">
+        <button id="openAdminModalBtn" class="settings-btn" type="button" aria-label="관리자 설정">
+          ⚙️
+        </button>
       </div>
 
-      <dl class="info-list">
-        <div class="info-row">
-          <dt>위도 (Latitude)</dt>
-          <dd id="latValue">-</dd>
+      <header class="header">
+        <div class="badge">JAPAN TRIP · 11.30 ~ 12.4</div>
+        <h1>일본 여행 도우미</h1>
+        <p id="welcomeText" class="subtitle">현재 GPS 위치를 확인하거나 날짜별 일정을 한눈에 볼 수 있습니다.</p>
+        <div id="userChip" class="user-chip hidden">
+          <span id="userNameDisplay" class="user-name-text"></span>
+          <button id="changeNameBtn" class="change-name-btn" type="button">이름 변경</button>
         </div>
-        <div class="info-row">
-          <dt>경도 (Longitude)</dt>
-          <dd id="lngValue">-</dd>
-        </div>
-        <div class="info-row">
-          <dt>정확도 (Accuracy)</dt>
-          <dd id="accValue">-</dd>
-        </div>
-        <div class="info-row">
-          <dt>고도 (Altitude)</dt>
-          <dd id="altValue">-</dd>
-        </div>
-        <div class="info-row">
-          <dt>속도 (Speed)</dt>
-          <dd id="speedValue">-</dd>
-        </div>
-      </dl>
+      </header>
 
-      <div class="card-actions">
-        <button id="copyBtn" class="secondary-btn" type="button">좌표 복사</button>
-        <a id="mapsLink" class="secondary-btn link-btn" href="#" target="_blank" rel="noopener noreferrer">구글 지도에서 보기</a>
+      <section class="action-section">
+        <button id="openScheduleBtn" class="schedule-btn" type="button">
+          <span class="btn-icon" aria-hidden="true">📅</span>
+          <span class="btn-group-text">
+            <span class="btn-main-label">일정 확인</span>
+            <span class="btn-sub-label">11.30(월) ~ 12.4(금) 날짜별 타임라인</span>
+          </span>
+          <span class="btn-arrow" aria-hidden="true">›</span>
+        </button>
+
+        <button id="getGpsBtn" class="gps-btn" type="button">
+          <span class="btn-icon" aria-hidden="true">📍</span>
+          <span class="btn-text">현재 GPS 정보 가져오기</span>
+        </button>
+        <p id="statusText" class="status-text" aria-live="polite">대기 중</p>
+      </section>
+
+      <section id="resultCard" class="card hidden" aria-live="polite">
+        <div class="card-header">
+          <h2>위치 정보</h2>
+          <span id="timestamp" class="timestamp"></span>
+        </div>
+
+        <dl class="info-list">
+          <div class="info-row">
+            <dt>위도 (Latitude)</dt>
+            <dd id="latValue">-</dd>
+          </div>
+          <div class="info-row">
+            <dt>경도 (Longitude)</dt>
+            <dd id="lngValue">-</dd>
+          </div>
+          <div class="info-row">
+            <dt>정확도 (Accuracy)</dt>
+            <dd id="accValue">-</dd>
+          </div>
+          <div class="info-row">
+            <dt>고도 (Altitude)</dt>
+            <dd id="altValue">-</dd>
+          </div>
+          <div class="info-row">
+            <dt>속도 (Speed)</dt>
+            <dd id="speedValue">-</dd>
+          </div>
+        </dl>
+
+        <div class="card-actions">
+          <button id="copyBtn" class="secondary-btn" type="button">좌표 복사</button>
+          <a id="mapsLink" class="secondary-btn link-btn" href="#" target="_blank" rel="noopener noreferrer">구글 지도에서 보기</a>
+        </div>
+
+        <div id="syncStatus" class="sync-status hidden" aria-live="polite"></div>
+      </section>
+
+      <section id="errorBox" class="error-box hidden" role="alert"></section>
+
+      <footer class="footer">
+        <p>※ 스마트폰 브라우저에서 GPS를 사용하려면 위치 권한 허용 및 HTTPS(또는 localhost) 환경이 필요합니다.</p>
+      </footer>
+    </div>
+
+    <!-- 일정 확인 화면 -->
+    <div id="scheduleView" class="view hidden" aria-label="일본 일정">
+      <div class="sticky-top">
+        <div class="sub-header">
+          <button id="backHomeBtn" class="back-btn" type="button" aria-label="홈으로 돌아가기">
+            ← 홈
+          </button>
+          <div class="sub-header-title">
+            <h1>일본 일정</h1>
+            <span>11.30(월) ~ 12.4(금)</span>
+          </div>
+        </div>
+
+        <nav id="dayTabs" class="day-tabs" aria-label="날짜 선택"></nav>
       </div>
-    </section>
 
-    <section id="errorBox" class="error-box hidden" role="alert"></section>
+      <section id="scheduleContent" class="schedule-content"></section>
+    </div>
 
-    <footer class="footer">
-      <p>※ 스마트폰 브라우저에서 GPS를 사용하려면 위치 권한 허용 및 HTTPS(또는 localhost) 환경이 필요합니다.</p>
-    </footer>
+    <!-- 관리자 위치 기록 화면 -->
+    <div id="adminView" class="view hidden" aria-label="관리자 위치 기록">
+      <div class="sticky-top">
+        <div class="sub-header admin-header">
+          <button id="adminBackBtn" class="back-btn" type="button">← 홈</button>
+          <div class="sub-header-title">
+            <h1>관리자 위치 기록</h1>
+            <span id="adminTotalCount">0건</span>
+          </div>
+          <button id="adminRefreshBtn" class="refresh-btn" type="button" aria-label="새로고침">🔄</button>
+        </div>
+
+        <div class="mode-switch" role="tablist" aria-label="정렬 기준">
+          <button id="modeByNameBtn" class="mode-btn active" type="button" role="tab" aria-selected="true">
+            👤 이름별 보기
+          </button>
+          <button id="modeByDateBtn" class="mode-btn" type="button" role="tab" aria-selected="false">
+            📅 날짜별 보기
+          </button>
+        </div>
+
+        <div id="adminFilterChips" class="filter-chips" aria-label="세부 필터"></div>
+      </div>
+
+      <section id="adminStatusBox" class="admin-status hidden"></section>
+      <section id="adminContent" class="admin-content"></section>
+    </div>
   </main>
 
+  <!-- 관리자 번호 입력 모달 -->
+  <div id="adminAuthModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
+    <div class="modal-card">
+      <div class="modal-badge">ADMIN</div>
+      <h2 id="adminModalTitle">관리자 설정</h2>
+      <p class="modal-desc">관리자 번호를 입력하면 등록된<br />모든 위치 기록을 확인할 수 있습니다.</p>
+      <form id="adminAuthForm" class="name-form" novalidate>
+        <input
+          id="adminPinInput"
+          class="name-input pin-input"
+          type="password"
+          inputmode="numeric"
+          maxlength="10"
+          placeholder="관리자 번호 입력"
+          autocomplete="off"
+          required
+        />
+        <p id="adminPinError" class="name-error hidden"></p>
+        <div class="modal-actions">
+          <button id="cancelAdminModalBtn" class="secondary-btn" type="button">취소</button>
+          <button type="submit" class="gps-btn modal-submit-btn">입장하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 최초 이름 입력 모달 -->
+  <div id="nameModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
+    <div class="modal-card">
+      <div class="modal-badge">JAPAN TRIP</div>
+      <h2 id="nameModalTitle">반가워요! 👋</h2>
+      <p class="modal-desc">여행 중 사용할 이름을 입력해 주세요.<br />입력한 이름은 이 기기에 자동 저장됩니다.</p>
+      <form id="nameForm" class="name-form" novalidate>
+        <input
+          id="nameInput"
+          class="name-input"
+          type="text"
+          maxlength="20"
+          placeholder="이름 입력 (예: 홍길동)"
+          autocomplete="name"
+          required
+        />
+        <p id="nameError" class="name-error hidden"></p>
+        <div class="modal-actions">
+          <button id="cancelNameBtn" class="secondary-btn hidden" type="button">취소</button>
+          <button type="submit" class="gps-btn modal-submit-btn">저장하고 시작하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="schedule-data.js"></script>
+  <script src="firebase-config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
